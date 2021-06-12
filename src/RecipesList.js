@@ -1,8 +1,11 @@
 import { useRecipesFinder } from './recipiesDao.js'
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { LoginContext } from './Login';
 
 function RecipiesList() {
   const [ recipes, error ] = useRecipesFinder("student");
+  console.log(useContext(LoginContext));
 
   return (
     <>
@@ -16,7 +19,6 @@ function RecipiesList() {
 }
 
 function ListElement(recipe) {
-  console.log(recipe);
   return (
     <Link key={recipe.id} to={"/recipes/"+recipe.id} >
       <li key={recipe.id}>{recipe.name}</li>

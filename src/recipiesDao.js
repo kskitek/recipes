@@ -10,7 +10,7 @@ function getCollection() {
     //  there can be only one initialized firebase app (unless the app in named)
     if (firebase.apps.length === 0) {
       firebase.initializeApp(getConfig().firebase);
-      // firebase.analytics();
+      /* firebase.analytics(); */
     }
 
     var db = firebase.firestore();
@@ -45,7 +45,7 @@ function useRecipesFinder(author) {
         console.error(error);
         setError("Unable to read recipes");
       });
-    return () => {
+   return () => {
       unsubscribe();
     }
   }, [ author ]);

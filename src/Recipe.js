@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetRecipe } from "./recipiesDao";
 import ReactMarkdown from 'react-markdown';
+import { Link } from "react-router-dom";
 
 function Recipe(props) {
   let { recipeId } = useParams();
-  console.log("!!");
 
   const [ recipe, error ] = useGetRecipe(recipeId);
 
@@ -35,8 +35,9 @@ function Details(props) {
   );
 }
 
+  // TODO ingridient.name should not be a key
 function Ingridients(props) {
-  const ingridients = props.ingridients.map(i => <Ingridient ingridient={i}/>)
+  const ingridients = props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>)
   return (
     <div className="ingridientList">
       <p className="header">Ingridients:</p>
@@ -48,7 +49,6 @@ function Ingridients(props) {
 function Ingridient(props) {
   const ingridient = props.ingridient;
   const ingridientText= `${ingridient.name} - ${ingridient.quantity} ${ingridient.unit}`;
-  // TODO ingridient.name should not be a key
   return (
     <li className="ingridient" key={ingridient.name}>{ingridientText}</li>
   );
@@ -60,16 +60,16 @@ function Description(props) {
   return (
     <>
       <p className="header">Description:</p>
-      <p className="description">
+      <div className="description">
         <ReactMarkdown>{description}</ReactMarkdown>
-      </p>
+      </div>
     </>
   );
 }
 
 function HomeLink(props) {
   return (
-    <a href="/">📖</a>
+    <Link to="/" >📖</Link>
   );
 }
 
