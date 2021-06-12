@@ -20,9 +20,11 @@ function RecipiesList() {
 
 function ListElement(recipe) {
   return (
-    <Link key={recipe.id} to={"/recipes/"+recipe.id} >
-      <li key={recipe.id}>{recipe.name}</li>
-    </Link>
+    <li key={recipe.id}>
+      <Link key={recipe.id} to={"/recipes/"+recipe.id} >
+        {recipe.name}
+      </Link>
+    </li>
   );
 }
 
