@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetRecipe } from "./recipiesDao";
+import ReactMarkdown from 'react-markdown';
 
 function Recipe(props) {
   let { recipeId } = useParams();
@@ -29,8 +30,7 @@ function Details(props) {
       <p className="title"><HomeLink/> | {recipe.name}</p>
       <a href={recipe.url}>{recipe.url}</a>
       <Ingridients ingridients={recipe.ingridients}/>
-      <p className="header">Description:</p>
-      <p className="description">{recipe.description}</p>
+      <Description description={recipe.description}/>
     </div>
   );
 }
@@ -51,6 +51,19 @@ function Ingridient(props) {
   // TODO ingridient.name should not be a key
   return (
     <li className="ingridient" key={ingridient.name}>{ingridientText}</li>
+  );
+}
+
+function Description(props) {
+  const description = props.description;
+
+  return (
+    <>
+      <p className="header">Description:</p>
+      <p className="description">
+        <ReactMarkdown>{description}</ReactMarkdown>
+      </p>
+    </>
   );
 }
 
