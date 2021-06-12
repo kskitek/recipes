@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetRecipe } from "./recipiesDao";
 
@@ -17,23 +18,28 @@ function Recipe(props) {
 
 function Details(props) {
   const recipe = props.recipe;
+
+  useEffect(() => {
+     document.title = recipe.name;
+  }, [recipe]);
+
+
   return (
-    <>
-      <p className="title">{recipe.name}</p>
+    <div className="details">
+      <p className="title"><HomeLink/> | {recipe.name}</p>
       <a href={recipe.url}>{recipe.url}</a>
       <Ingridients ingridients={recipe.ingridients}/>
+      <p className="header">Description:</p>
       <p className="description">{recipe.description}</p>
-    </>
+    </div>
   );
 }
 
-// TODO ingridient.name should not be a key
-
 function Ingridients(props) {
-  const ingridients = props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>)
+  const ingridients = props.ingridients.map(i => <Ingridient ingridient={i}/>)
   return (
     <div className="ingridientList">
-      <p>Ingridients:</p>
+      <p className="header">Ingridients:</p>
       {ingridients}
     </div>
   )
@@ -41,10 +47,17 @@ function Ingridients(props) {
 
 function Ingridient(props) {
   const ingridient = props.ingridient;
+  const ingridientText= `${ingridient.name} - ${ingridient.quantity} ${ingridient.unit}`;
+  // TODO ingridient.name should not be a key
   return (
-    <li key={ingridient.name}>{ingridient.name} - {ingridient.quantity} {ingridient.unit}</li>
+    <li className="ingridient" key={ingridient.name}>{ingridientText}</li>
   );
 }
 
+function HomeLink(props) {
+  return (
+    <a href="/">📖</a>
+  );
+}
 
 export { Recipe };

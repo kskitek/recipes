@@ -1,38 +1,60 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  background-color: #30343B;
+  color: #E9EAED;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+  color: #5784D1;
+  text-decoration: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+li {
+  list-style-type: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+.app {
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 60%;
+  min-height: 100%;
+  margin: auto;
+  padding: 1em 1em 1em 1em;
 }
 
-.App-link {
-  color: #61dafb;
+.recipesList {
+  font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.recipesList li {
+  margin: .2em .2em 0.2em 0.2em;
 }
+
+.details {
+}
+
+.title {
+  color: #F7CAD2;
+  font-size: larger;
+  font-weight: 900;
+}
+
+.header {
+  font-size: large;
+  margin: 1.5em 1em 0.8em 0.2em;
+  font-weight: bold;
+}
+
+.description {
+  margin: 0;
+  padding: 0em 1em 0em 1.2em;
+}
+
+.ingridient {
+  margin: 0;
+  padding: 0em 1em 0em 1.2em;
+}
+
+

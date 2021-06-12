@@ -5,10 +5,13 @@ function RecipiesList() {
   const [ recipes, error ] = useRecipesFinder("student");
 
   return (
-    <div className="list">
-    {error && error}
-    {recipes && recipes.map(ListElement)}
-    </div>
+    <>
+      <p className="title">Sylwiowa książka przepisowa</p>
+      <div className="recipesList">
+      {error && error}
+      {recipes && recipes.map(ListElement)}
+      </div>
+    </>
   );
 }
 
