@@ -55,26 +55,43 @@ function useRecipesFinder(author) {
 }
 
 function useGetRecipe(recipeId) {
-  const [ recipe, setRecipe ] = useState(undefined);
+  const [ recipe, setRecipe ] = useState({
+    name: "",
+    ingridients: []
+  });
   const [ error, setError ] = useState(undefined);
 
   useEffect(() => {
-    const unsubscribe = getCollection()
-      .doc(recipeId)
-      .onSnapshot(qs => {
-        setRecipe(qs.data());
-        setError(undefined);
-      }, error => {
-        console.error(error);
-        setError("Unable to read games");
-      });
-    return () => {
-      unsubscribe();
+    if (recipeId) {
+      const unsubscribe = getCollection()
+        .doc(recipeId)
+        .onSnapshot(qs => {
+          const recipe = qs.data();
+          recipe.id = recipeId;
+          setRecipe(recipe);
+          setError(undefined);
+        }, error => {
+          console.error(error);
+          setError("Unable to read games");
+        });
+      return () => {
+        unsubscribe();
+      }
     }
   }, [ recipeId ]);
 
 
-  return [ recipe, error ];
+  return [ recipe, setRecipe, error ];
 }
 
-export { useRecipesFinder, useGetRecipe };
+function saveRecipe(recipe) {
+  // TODO if id is empty use `set` instead of `update`
+  console.log(recipe.id)
+  getCollection()
+    .doc(recipe.id)
+    .update(recipe)
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+}
+
+export { useRecipesFinder, useGetRecipe, saveRecipe };

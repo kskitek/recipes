@@ -19,7 +19,8 @@ function App() {
         <BrowserRouter>
           <WithLogin>
             <Switch>
-                <Route exact path="/"><RecipiesList/></Route>
+              <Route exact path="/"><RecipiesList/></Route>
+              <Route exact path="/recipes/new"><Recipe isNew/></Route>
               <Route exact path="/recipes/:recipeId"><Recipe/></Route>
             </Switch>
           </WithLogin>

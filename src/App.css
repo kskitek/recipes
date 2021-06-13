@@ -9,10 +9,17 @@ a {
   text-decoration: none;
 }
 
-li {
+li.ingridient {
   list-style-type: none;
 }
 
+.recipesList > li {
+  list-style-type: none;
+}
+
+.recipesList li {
+  margin: .2em .2em 0.2em 0.2em;
+}
 
 .app {
   text-align: left;
@@ -28,17 +35,38 @@ li {
   font-size: large;
 }
 
-.recipesList li {
-  margin: .2em .2em 0.2em 0.2em;
-}
-
 .details {
 }
 
-.title {
+.editable {
+  background: inherit;
+  color: #E9EAED;
+  border-color: #30343B;
+  border-style: none;
+  border-radius: 4px;
+}
+
+.editable:hover {
+  border-color: #E9EAED;
+  border-style: dashed;
+}
+
+.titleRow {
+  display: flex;
   color: #F7CAD2;
   font-size: larger;
   font-weight: 900;
+}
+
+.title {
+  width: 100%;
+  color: #F7CAD2;
+  font-size: larger;
+  font-weight: 900;
+}
+
+.url {
+  color: #5784D1;
 }
 
 .header {

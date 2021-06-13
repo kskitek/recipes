@@ -1,15 +1,15 @@
 import { useRecipesFinder } from './recipiesDao.js'
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { LoginContext } from './Login';
+import { Link, useHistory } from "react-router-dom";
 
 function RecipiesList() {
   const [ recipes, error ] = useRecipesFinder("student");
-  console.log(useContext(LoginContext));
+  const history = useHistory();
+  const newRecipe = () => history.push("/recipes/new");
 
   return (
     <>
       <p className="title">Sylwiowa książka przepisowa</p>
+      <button onClick={newRecipe}>New</button>
       <div className="recipesList">
       {error && error}
       {recipes && recipes.map(ListElement)}
