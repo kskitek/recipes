@@ -24,8 +24,12 @@ function Details({recipe, setRecipe}) {
   const [ edited, setEdited ] = useState(false);
 
   const toggleEditMode = () => {
+    if (editMode) {
+      saveRecipe(recipe);
+    }
     setEditMode(!editMode);
-  }
+    setEdited(false);
+  };
 
   const onChange = ({target}) => {
     // TODO why do I need to spread recipes?
@@ -34,34 +38,40 @@ function Details({recipe, setRecipe}) {
       [target.name]: target.value,
     });
     setEdited(true);
-  }
+  };
 
   return (
     <div className="details">
       <div className="titleRow">
         <HomeLink/> | <Input name="name" className="title" value={recipe.name} onChange={onChange}/>
-        {edited && <button onClick={() => saveRecipe(recipe)}>Save</button>}
-        <button onClick={toggleEditMode}>Edit</button>
+        {false && edited && <button onClick={() => saveRecipe(recipe)}>Save</button>}
+        <button onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</button>
       </div>
       {editMode && <Input name="url" className="url" value={recipe.url} onChange={onChange}/>}
       {!editMode && <a href={recipe.url}>{recipe.url}</a>}
-      <Ingridients ingridients={recipe.ingridients} editMode={editMode}/>
-      {editMode && <TextArea name="description" className="description" value={recipe.description} onChange={onChange}/>}
-      {!editMode && <Description description={recipe.description}/>}
+      <Ingridients ingridients={recipe.ingridients} editMode={editMode} onChange={onChange}/>
+      <Description description={recipe.description} editMode={editMode} onChange={onChange}/>
     </div>
   );
 }
 
   // TODO ingridient.name should not be a key
-function Ingridients({ingridients, editMode}) {
+function Ingridients({ingridients, editMode, onChange}) {
   /* const ingridients = !props.ingridients ? [] : props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>) */
   /* const ingridients = props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>) */
+  const addNewIngridient = () => {
+    ingridients.push({name: "", quantity: 0, unit: ""});
+    onChange({target: {
+      name: "ingridients",
+      value: ingridients
+    }});
+  };
 
   return (
     <div className="ingridientList">
       <p className="header">Ingridients:</p>
-      {ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>)}
-      {editMode && <button className="ingridient">New ingridient</button>}
+      <ul>{ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>)}</ul>
+      {editMode && <button className="ingridient" onClick={() => addNewIngridient()}>New ingridient</button>}
     </div>
   )
 }
@@ -73,12 +83,13 @@ function Ingridient({ingridient}) {
   );
 }
 
-function Description({description}) {
+function Description({description, editMode, onChange}) {
   return (
     <>
       <p className="header">Description:</p>
       <div className="description">
-        <ReactMarkdown>{description}</ReactMarkdown>
+        {editMode && <TextArea name="description" className="description" value={description} onChange={onChange}/>}
+        {!editMode && <ReactMarkdown>{description}</ReactMarkdown>}
       </div>
     </>
   );

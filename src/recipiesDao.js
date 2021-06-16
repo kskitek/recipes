@@ -90,7 +90,7 @@ function saveRecipe(recipe) {
   getCollection()
     .doc(recipe.id)
     .update(recipe)
-    .then((result) => console.log(result))
+    .then((result) => console.log("saved", result))
     .catch((error) => console.error(error));
 }
 
