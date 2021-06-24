@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import "firebase/auth";
 
 const LoginContext = createContext({loggedIn: false});
+LoginContext.displayName = "LoginContext";
 
 function WithLogin({children}) {
   const [state, login] = useLogin();

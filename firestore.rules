@@ -10,6 +10,7 @@ service cloud.firestore {
       	resource != null &&
       	resource.data != null &&
         resource.data.public == true;
+      allow write: if request.auth.token.email == "krzysztof.skitek@gmail.com";
       allow write: if false;
     }
   }

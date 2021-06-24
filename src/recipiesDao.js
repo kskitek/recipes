@@ -28,9 +28,10 @@ function useRecipesFinder(author) {
   const [ error, setError ] = useState(undefined);
 
   // TODO pagination
+  // TODO get by author or public using two separate queries
   useEffect(() => {
     const unsubscribe = getCollection()
-      .where("author", "==", author)
+      /* .where("author", "==", author) */
       /* .limit(10) */
       .onSnapshot(qs => {
         let recipes = [];
@@ -84,14 +85,21 @@ function useGetRecipe(recipeId) {
   return [ recipe, setRecipe, error ];
 }
 
-function saveRecipe(recipe) {
-  // TODO if id is empty use `set` instead of `update`
-  console.log(recipe.id)
-  getCollection()
-    .doc(recipe.id)
-    .update(recipe)
-    .then((result) => console.log("saved", result))
-    .catch((error) => console.error(error));
+async function saveRecipe(recipe) {
+  try {
+    if (recipe.id) {
+      const result = getCollection()
+        .doc(recipe.id)
+        .update(recipe)
+      return [result.id, undefined ];
+    } else {
+      const result = await getCollection().add(recipe)
+      return [result.id, undefined ];
+    }
+  }
+  catch(error) {
+    return [recipe.id, error];
+  }
 }
 
 export { useRecipesFinder, useGetRecipe, saveRecipe };

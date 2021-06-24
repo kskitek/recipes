@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
 import { Input, TextArea } from "./Editable";
+import { LoginContext } from "./Login";
 
 function Recipe({isNew}) {
-  let { recipeId } = useParams();
+  const { recipeId } = useParams();
   const [ recipe, setRecipe, error ] = useGetRecipe(recipeId);
+
   useEffect(() => {
      document.title = recipe.name;
   }, [recipe]);
@@ -18,23 +20,31 @@ function Recipe({isNew}) {
     </div>
   )
 }
+// TODO add spinner on load
 
 function Details({recipe, setRecipe}) {
   const [ editMode, setEditMode ] = useState(false);
   const [ edited, setEdited ] = useState(false);
+  const { user } = useContext(LoginContext);
+  const history = useHistory();
 
-  const toggleEditMode = () => {
+  const toggleEditMode = async () => {
     if (editMode) {
-      saveRecipe(recipe);
+      setEdited(false);
+      const [newId, error] = await saveRecipe(recipe);
+      if (newId) {
+        history.replace(`/recipes/${newId}`);
+      }
+      console.log(error);
     }
     setEditMode(!editMode);
-    setEdited(false);
   };
 
   const onChange = ({target}) => {
     // TODO why do I need to spread recipes?
     setRecipe({
       ...recipe,
+      author: user,
       [target.name]: target.value,
     });
     setEdited(true);
@@ -44,7 +54,6 @@ function Details({recipe, setRecipe}) {
     <div className="details">
       <div className="titleRow">
         <HomeLink/> | <Input name="name" className="title" value={recipe.name} onChange={onChange}/>
-        {false && edited && <button onClick={() => saveRecipe(recipe)}>Save</button>}
         <button onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</button>
       </div>
       {editMode && <Input name="url" className="url" value={recipe.url} onChange={onChange}/>}

@@ -9,14 +9,13 @@ function getConfig () {
 
 const local = {
   firebase: {
-    apiKey: "AIzaSyAlqjRl7NdTtlGNSDl77MKYKLSasJo3Pe4",
-    authDomain: "recepies01.firebaseapp.com",
-    projectId: "recepies01",
-    storageBucket: "recepies01.appspot.com",
-    messagingSenderId: "572692453056",
-    appId: "1:572692453056:web:4c65c2ed7499a253bebf25",
-    measurementId: "G-R6967XP2E9",
-    useEmulator: false
+    apiKey: "AIzaSyB7fefNbl0ACz3yTNn26sgd3phwA1T2RWU",
+    authDomain: "recipes-55.firebaseapp.com",
+    projectId: "recipes-55",
+    storageBucket: "recipes-55.appspot.com",
+    messagingSenderId: "74446821365",
+    appId: "1:74446821365:web:78e1653de001802e3972bc",
+    measurementId: "G-FQPGW4Q09P"
   }
 }
 
