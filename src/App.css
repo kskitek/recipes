@@ -35,7 +35,7 @@ li.note {
 }
 
 .button {
-  border-style: dashed;
+  /* border-style: dashed; */
   border-radius: 0.3em;
   padding: 0 0.3em 0 0.3em;
   text-align: center;

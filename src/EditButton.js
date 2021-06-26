@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faSave } from '@fortawesome/free-regular-svg-icons'
 
 function useEditButton(onSave) {
   const [ editMode, setEditMode ] = useState(false);
@@ -14,7 +17,9 @@ function useEditButton(onSave) {
 
   // TODO add discard changes option
   const EditButton = () =>
-    <div className="button" onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</div>
+    <div className="button" onClick={toggleEditMode} disabled={editMode && !edited}>
+      {editMode ? <FontAwesomeIcon icon={faSave}/> : <FontAwesomeIcon icon={faEdit}/>}
+      </div>
 
   return { EditButton, editMode, edited, setEdited };
 }
