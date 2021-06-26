@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
-import { Input, Input2, TextArea } from "./Editable";
+import { Input, TextArea } from "./Editable";
 import { LoginContext } from "./Login";
 import { useEditButton } from "./EditButton";
 
@@ -37,7 +37,7 @@ function Details({recipe, setRecipe}) {
       history.replace(`/recipes/${newId}`);
     }
   };
-  const {EditButton, editMode, setEdited } = useEditButton(onSave);
+  const { EditButton, editMode, setEdited } = useEditButton(onSave);
 
   const onChange = ({target}) => {
     setRecipe({
@@ -52,44 +52,71 @@ function Details({recipe, setRecipe}) {
     <div className="details">
       <div className="titleRow">
         <HomeLink/> |
-          <Input2 editMode={editMode} name="name" className="title"
+          <Input name="name" className="title" editMode={editMode}
            value={recipe.name} onChange={onChange}>
             <div>{recipe.name}</div>
-          </Input2>
+          </Input>
         <EditButton/>
       </div>
-      {editMode && <Input name="url" className="url" value={recipe.url} onChange={onChange}/>}
-      {!editMode && <a href={recipe.url}>{recipe.url}</a>}
+      <Input name="url" className="url" editMode={editMode}
+        value={recipe.url} onChange={onChange}>
+        <a href={recipe.url}>{recipe.url}</a>
+      </Input>
+
       <Ingridients ingridients={recipe.ingridients} editMode={editMode} onChange={onChange}/>
       <Description description={recipe.description} editMode={editMode} onChange={onChange}/>
+      <Notes notes={recipe.notes} editMode={editMode} onChange={onChange}/>
     </div>
   );
 }
 
 function Ingridients({ingridients, editMode, onChange}) {
-  /* const ingridients = !props.ingridients ? [] : props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>) */
-  /* const ingridients = props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>) */
   const addNewIngridient = () => {
-    ingridients.push({name: "", quantity: 0, unit: ""});
+    ingridients.push({name: "", quantity: "", unit: ""});
     onChange({target: {
       name: "ingridients",
       value: ingridients
     }});
   };
 
+  const onIngridientChange = (idx) => ({target}) => {
+    ingridients[idx][target.name] = target.value;
+    onChange({
+      target: {
+        name: "ingridients",
+        value: ingridients
+      }
+    });
+  };
+
   return (
     <div className="ingridientList">
       <p className="header">Ingridients:</p>
-      <ul>{ingridients.map((i, idx) => <Ingridient key={idx} ingridient={i}/>)}</ul>
-      {editMode && <div className="ingridient" onClick={() => addNewIngridient()}>New ingridient</div>}
+      <ul>{ingridients.map((i, idx) =>
+        <Ingridient key={idx} ingridient={i} idx={idx}
+          editMode={editMode} onChange={onIngridientChange(idx)}/>)}
+      </ul>
+      {editMode && <ul><div className="button dimmed ingridient" onClick={() => addNewIngridient()}>+</div></ul>}
     </div>
   )
 }
 
-function Ingridient({ingridient}) {
-  const ingridientText= `${ingridient.name} - ${ingridient.quantity} ${ingridient.unit}`;
+function Ingridient({ingridient, idx, editMode, onChange}) {
+  const ingridientText= `${ingridient.quantity} [${ingridient.unit}] ${ingridient.name}`;
   return (
-    <li className="ingridient" key={ingridient.name}>{ingridientText}</li>
+    <li className="ingridient" key={idx}>
+      {!editMode && ingridientText}
+      {editMode && (
+        <>
+        <Input name="name" className="" editMode={editMode}
+          value={ingridient.name} onChange={onChange}/>
+        <Input name="quantity" className="" editMode={editMode}
+          value={ingridient.quantity} onChange={onChange}/>
+        <Input name="unit" className="" editMode={editMode}
+          value={ingridient.unit} onChange={onChange}/>
+        </>
+      )}
+    </li>
   );
 }
 
@@ -98,11 +125,22 @@ function Description({description, editMode, onChange}) {
     <>
       <p className="header">Description:</p>
       <div className="description">
-        {editMode && <TextArea name="description" className="description" value={description} onChange={onChange}/>}
-        {!editMode && <ReactMarkdown>{description}</ReactMarkdown>}
+        <TextArea name="description" className="description" editMode={editMode}
+        value={description} onChange={onChange}>
+        <ReactMarkdown>{description}</ReactMarkdown>
+        </TextArea>
       </div>
     </>
   );
+}
+
+function Notes({notes, editMode, onChange}) {
+  return (
+    <div className="notesList">
+      <p className="header">Notes:</p>
+      <ul>{notes.map((n, idx) => <li className="note" key={idx}>{n}</li>)}</ul>
+    </div>
+  )
 }
 
 function HomeLink(props) {

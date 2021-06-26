@@ -13,9 +13,10 @@ function useEditButton(onSave) {
   };
 
   // TODO add discard changes option
-  const EditButton = () => <div onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</div>
+  const EditButton = () =>
+    <div className="button" onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</div>
 
-  return {EditButton, editMode, edited, setEdited};
+  return { EditButton, editMode, edited, setEdited };
 }
 
 export { useEditButton };

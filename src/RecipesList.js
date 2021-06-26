@@ -9,7 +9,7 @@ function RecipiesList() {
   return (
     <>
       <p className="title">Sylwiowa książka przepisowa</p>
-      <button onClick={newRecipe}>New</button>
+      <div className="button" onClick={newRecipe}>New</div>
       <div className="recipesList">
       {error && error}
       {recipes && recipes.map(ListElement)}
