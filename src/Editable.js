@@ -5,7 +5,7 @@ function Input({name, value, onChange, className}) {
   );
 }
 
-function Input2({name = "input", value, editMode = false, onChange, className, children}) {
+function Input2({name, value, editMode = false, onChange, className, children}) {
   const cn = (editMode ? "on" : "off") + " editable "  + className;
   return (
     <>

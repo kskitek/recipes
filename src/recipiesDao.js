@@ -59,6 +59,7 @@ function useGetRecipe(recipeId) {
   const [ recipe, setRecipe ] = useState({
     name: "",
     url: "",
+    public: false,
     ingridients: [],
     description: "",
     notes: []
@@ -72,7 +73,6 @@ function useGetRecipe(recipeId) {
         .onSnapshot(qs => {
           if (qs.exists) {
             const recipe = qs.data();
-            console.log(qs);
             recipe.id = recipeId;
             setRecipe(recipe);
             setError(undefined);
@@ -107,6 +107,7 @@ async function saveRecipe(recipe) {
     }
   }
   catch(error) {
+    console.error(error);
     return [recipe.id, error];
   }
 }

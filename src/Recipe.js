@@ -1,9 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
 import { Input, Input2, TextArea } from "./Editable";
 import { LoginContext } from "./Login";
+import { useEditButton } from "./EditButton";
 
 function Recipe({isNew}) {
   const { recipeId } = useParams();
@@ -27,22 +28,16 @@ function Recipe({isNew}) {
 // TODO add spinner on load
 
 function Details({recipe, setRecipe}) {
-  const [ editMode, setEditMode ] = useState(false);
-  const [ edited, setEdited ] = useState(false);
   const { user } = useContext(LoginContext);
   const history = useHistory();
 
-  const toggleEditMode = async () => {
-    if (editMode) {
-      setEdited(false);
-      const [newId, error] = await saveRecipe(recipe);
-      if (newId) {
-        history.replace(`/recipes/${newId}`);
-      }
-      console.log(error);
+  const onSave = async () => {
+    const [newId, error] = await saveRecipe(recipe);
+    if (newId) {
+      history.replace(`/recipes/${newId}`);
     }
-    setEditMode(!editMode);
   };
+  const {EditButton, editMode, setEdited } = useEditButton(onSave);
 
   const onChange = ({target}) => {
     setRecipe({
@@ -55,10 +50,13 @@ function Details({recipe, setRecipe}) {
 
   return (
     <div className="details">
-      <Input2 editMode={editMode}><button>a</button></Input2>
       <div className="titleRow">
-        <HomeLink/> | <Input name="name" className="title" value={recipe.name} onChange={onChange}/>
-        <div onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</div>
+        <HomeLink/> |
+          <Input2 editMode={editMode} name="name" className="title"
+           value={recipe.name} onChange={onChange}>
+            <div>{recipe.name}</div>
+          </Input2>
+        <EditButton/>
       </div>
       {editMode && <Input name="url" className="url" value={recipe.url} onChange={onChange}/>}
       {!editMode && <a href={recipe.url}>{recipe.url}</a>}
