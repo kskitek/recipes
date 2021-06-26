@@ -5,6 +5,17 @@ function Input({name, value, onChange, className}) {
   );
 }
 
+function Input2({name = "input", value, editMode = false, onChange, className, children}) {
+  const cn = (editMode ? "on" : "off") + " editable "  + className;
+  return (
+    <>
+    {editMode && <input name={name} type="text" className={cn}
+      value={value} onChange={onChange} placeholder={name}/>}
+    {!editMode && children}
+    </>
+  );
+}
+
 function TextArea({name, value, onChange, className}) {
   const cn = "editable " + className;
   return (
@@ -12,4 +23,4 @@ function TextArea({name, value, onChange, className}) {
   );
 }
 
-export { Input, TextArea };
+export { Input, Input2, TextArea };

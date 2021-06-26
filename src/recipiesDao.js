@@ -58,7 +58,10 @@ function useRecipesFinder(author) {
 function useGetRecipe(recipeId) {
   const [ recipe, setRecipe ] = useState({
     name: "",
-    ingridients: []
+    url: "",
+    ingridients: [],
+    description: "",
+    notes: []
   });
   const [ error, setError ] = useState(undefined);
 
@@ -67,10 +70,16 @@ function useGetRecipe(recipeId) {
       const unsubscribe = getCollection()
         .doc(recipeId)
         .onSnapshot(qs => {
-          const recipe = qs.data();
-          recipe.id = recipeId;
-          setRecipe(recipe);
-          setError(undefined);
+          if (qs.exists) {
+            const recipe = qs.data();
+            console.log(qs);
+            recipe.id = recipeId;
+            setRecipe(recipe);
+            setError(undefined);
+          } else {
+            setRecipe(undefined);
+            setError("Recipe not found");
+          }
         }, error => {
           console.error(error);
           setError("Unable to read games");

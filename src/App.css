@@ -44,6 +44,8 @@ li.ingridient {
   border-color: #30343B;
   border-style: none;
   border-radius: 4px;
+  border-color: #30343B;
+  border-style: dashed;
 }
 
 .editable:hover {

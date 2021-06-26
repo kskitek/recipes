@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
-import { Input, TextArea } from "./Editable";
+import { Input, Input2, TextArea } from "./Editable";
 import { LoginContext } from "./Login";
 
 function Recipe({isNew}) {
@@ -10,7 +10,11 @@ function Recipe({isNew}) {
   const [ recipe, setRecipe, error ] = useGetRecipe(recipeId);
 
   useEffect(() => {
-     document.title = recipe.name;
+    if (recipe) {
+      document.title = recipe.name;
+    } else {
+      document.title = "Recipe not found";
+    }
   }, [recipe]);
 
   return (
@@ -41,7 +45,6 @@ function Details({recipe, setRecipe}) {
   };
 
   const onChange = ({target}) => {
-    // TODO why do I need to spread recipes?
     setRecipe({
       ...recipe,
       author: user,
@@ -52,9 +55,10 @@ function Details({recipe, setRecipe}) {
 
   return (
     <div className="details">
+      <Input2 editMode={editMode}><button>a</button></Input2>
       <div className="titleRow">
         <HomeLink/> | <Input name="name" className="title" value={recipe.name} onChange={onChange}/>
-        <button onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</button>
+        <div onClick={toggleEditMode} disabled={editMode && !edited}>{editMode ? "Save" : "Edit"}</div>
       </div>
       {editMode && <Input name="url" className="url" value={recipe.url} onChange={onChange}/>}
       {!editMode && <a href={recipe.url}>{recipe.url}</a>}
@@ -64,7 +68,6 @@ function Details({recipe, setRecipe}) {
   );
 }
 
-  // TODO ingridient.name should not be a key
 function Ingridients({ingridients, editMode, onChange}) {
   /* const ingridients = !props.ingridients ? [] : props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>) */
   /* const ingridients = props.ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>) */
@@ -79,8 +82,8 @@ function Ingridients({ingridients, editMode, onChange}) {
   return (
     <div className="ingridientList">
       <p className="header">Ingridients:</p>
-      <ul>{ingridients.map(i => <Ingridient key={i.name} ingridient={i}/>)}</ul>
-      {editMode && <button className="ingridient" onClick={() => addNewIngridient()}>New ingridient</button>}
+      <ul>{ingridients.map((i, idx) => <Ingridient key={idx} ingridient={i}/>)}</ul>
+      {editMode && <div className="ingridient" onClick={() => addNewIngridient()}>New ingridient</div>}
     </div>
   )
 }
