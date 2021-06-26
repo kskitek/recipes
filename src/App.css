@@ -3,6 +3,7 @@
   --fg-color: hsl(180, 2%, 90%);
   --fg-color-dimmed: hsl(206, 3%, 44%);
   --acc-color: hsl(353, 62%, 83%);
+  --acc-color-dimmed: hsl(353, 12%, 49%);
   --a-color: hsl(218, 57%, 58%);
 }
 
@@ -62,7 +63,7 @@ input {
 }
 
 hr {
-  border-color: var(--acc-color);
+  border-color: var(--acc-color-dimmed);
   margin: 0;
 }
 
@@ -104,6 +105,12 @@ textarea {
 
 .url {
   color: var(--a-color);
+}
+
+.tempAndTime {
+  display: grid;
+  grid-template-columns: 7em 3em;
+  grid-template-rows: auto;
 }
 
 .header {

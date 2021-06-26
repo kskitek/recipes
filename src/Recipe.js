@@ -60,16 +60,35 @@ function Details({recipe, setRecipe}) {
           </Input>
         <EditButton/>
       </div>
+
       <Input name="url" className="url" editMode={editMode}
         value={recipe.url} onChange={onChange}>
         <a href={recipe.url}>{recipe.url}</a>
       </Input>
 
+      <TempAndTime recipe={recipe} editMode={editMode} onChange={onChange}/>
       <Ingridients ingridients={recipe.ingridients} editMode={editMode} onChange={onChange}/>
       <Description description={recipe.description} editMode={editMode} onChange={onChange}/>
       <Notes notes={recipe.notes} editMode={editMode} onChange={onChange}/>
     </div>
   );
+}
+
+function TempAndTime({recipe, editMode, onChange}) {
+  return (
+    <div className="tempAndTime">
+      <div>Temperature:</div>
+      <Input name="temperature" editMode={editMode}
+        value={recipe.temperature} onChange={onChange}>
+          <div>{recipe.temperature}°C</div>
+      </Input>
+      <div>Time:</div>
+      <Input name="time" editMode={editMode}
+        value={recipe.time} onChange={onChange}>
+          <div>{recipe.time}″</div>
+      </Input>
+    </div>
+  )
 }
 
 function Ingridients({ingridients, editMode, onChange}) {
