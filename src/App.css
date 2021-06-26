@@ -1,16 +1,24 @@
+:root {
+  --bg-color: hsl(203, 8%, 20%);
+  --fg-color: hsl(180, 2%, 90%);
+  --fg-color-dimmed: hsl(206, 3%, 44%);
+  --acc-color: hsl(353, 62%, 83%);
+  --a-color: hsl(218, 57%, 58%);
+}
+
 body {
   margin: 0;
-  background-color: #30343B;
-  color: #E9EAED;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
 }
 
 a {
-  color: #5784D1;
+  color: var(--a-color);
   text-decoration: none;
 }
 
 li.ingridient {
-  list-style-type: lao;
+  list-style-type: none;
   margin: .2em .2em 0.2em 0.2em;
 }
 
@@ -20,7 +28,8 @@ li.ingridient {
 }
 
 li.note {
-  list-style-type: none;
+  /* list-style-type: none; */
+  list-style-type: lao;
   margin: 0em .2em 0.2em 0.2em;
 }
 
@@ -52,6 +61,11 @@ input {
   width: 100%;
 }
 
+hr {
+  border-color: var(--acc-color);
+  margin: 0;
+}
+
 textarea {
   width: 100%;
   min-height: 5em;
@@ -60,16 +74,15 @@ textarea {
 
 .editable {
   background: inherit;
-  color: #E9EAED;
-  border-color: #30343B;
+  color: var(--fg-color);
   border-style: none;
   border-radius: 4px;
-  border-color: #30343B;
+  border-color: var(--bg-color);
   border-style: dashed;
 }
 
 .editable:hover {
-  border-color: #E9EAED;
+  border-color: var(--fg-color-dimmed);
   border-style: dashed;
 }
 
@@ -77,20 +90,20 @@ textarea {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #F7CAD2;
+  color: var(--acc-color);
   font-size: larger;
   font-weight: 900;
 }
 
 .title {
   width: 100%;
-  color: #F7CAD2;
+  color: var(--acc-color);
   font-size: larger;
   font-weight: 900;
 }
 
 .url {
-  color: #5784D1;
+  color: var(--a-color);
 }
 
 .header {
@@ -114,6 +127,6 @@ textarea {
 }
 
 .dimmed {
-  color: #8D8F94;
+  color: var(--fg-color-dimmed);
 }
 

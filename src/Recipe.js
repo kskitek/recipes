@@ -53,7 +53,7 @@ function Details({recipe, setRecipe}) {
   return (
     <div className="details">
       <div className="titleRow">
-        <HomeLink/> |
+        <HomeLink/>
           <Input name="name" className="title" editMode={editMode}
            value={recipe.name} onChange={onChange}>
             <div>{recipe.name}</div>
@@ -104,6 +104,7 @@ function Ingridients({ingridients, editMode, onChange}) {
   return (
     <div className="ingridientList">
       <p className="header">Ingridients:</p>
+      <hr/>
       <ul>{ingridients.map((i, idx) =>
         <Ingridient key={idx} ingridient={i} idx={idx}
           editMode={editMode} onChange={onIngridientChange(idx)}
@@ -119,10 +120,16 @@ function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
 
   return (
     <li className="ingridient" key={idx}>
-      {!editMode && ingridientText}
+      {!editMode && (
+        <>
+        <div>{ingridient.quantity}</div>
+        <div>[{ingridient.unit}]</div>
+        <div>{ingridient.name}</div>
+        </>
+      )}
       {editMode && (
         <>
-        <div className="button" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
+        <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
         <Input name="name" className="" editMode={editMode}
           value={ingridient.name} onChange={onChange}/>
         <Input name="quantity" className="" editMode={editMode}
@@ -139,6 +146,7 @@ function Description({description, editMode, onChange}) {
   return (
     <>
       <p className="header">Description:</p>
+      <hr/>
       <div className="description">
         <TextArea name="description" className="description" editMode={editMode}
         value={description} onChange={onChange}>
@@ -153,6 +161,7 @@ function Notes({notes, editMode, onChange}) {
   return (
     <div className="notesList">
       <p className="header">Notes:</p>
+      <hr/>
       <ul>{notes.map((n, idx) => <li className="note" key={idx}>{n}</li>)}</ul>
     </div>
   )
