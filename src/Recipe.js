@@ -1,6 +1,8 @@
 import { useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
 import { Input, TextArea } from "./Editable";
 import { LoginContext } from "./Login";
@@ -89,25 +91,38 @@ function Ingridients({ingridients, editMode, onChange}) {
     });
   };
 
+  const onDelete = (idx) => {
+    ingridients.splice(idx,1);
+    onChange({
+      target: {
+        name: "ingridients",
+        value: ingridients
+      }
+    });
+  };
+
   return (
     <div className="ingridientList">
       <p className="header">Ingridients:</p>
       <ul>{ingridients.map((i, idx) =>
         <Ingridient key={idx} ingridient={i} idx={idx}
-          editMode={editMode} onChange={onIngridientChange(idx)}/>)}
+          editMode={editMode} onChange={onIngridientChange(idx)}
+          onDelete={() => onDelete(idx)}/>)}
       </ul>
       {editMode && <ul><div className="button dimmed ingridient" onClick={() => addNewIngridient()}>+</div></ul>}
     </div>
   )
 }
 
-function Ingridient({ingridient, idx, editMode, onChange}) {
+function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
   const ingridientText= `${ingridient.quantity} [${ingridient.unit}] ${ingridient.name}`;
+
   return (
     <li className="ingridient" key={idx}>
       {!editMode && ingridientText}
       {editMode && (
         <>
+        <div className="button" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
         <Input name="name" className="" editMode={editMode}
           value={ingridient.name} onChange={onChange}/>
         <Input name="quantity" className="" editMode={editMode}
