@@ -3,6 +3,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
 import { Input, TextArea } from "./Editable";
 import { LoginContext } from "./Login";
@@ -67,7 +68,7 @@ function Details({recipe, setRecipe}) {
       </Input>
 
       <TempAndTime recipe={recipe} editMode={editMode} onChange={onChange}/>
-      <Ingridients ingridients={recipe.ingridients} editMode={editMode} onChange={onChange}/>
+      <Ingridients sections={recipe.ingridientSections} editMode={editMode} onChange={onChange}/>
       <Description description={recipe.description} editMode={editMode} onChange={onChange}/>
       <Notes notes={recipe.notes} editMode={editMode} onChange={onChange}/>
     </div>
@@ -91,54 +92,123 @@ function TempAndTime({recipe, editMode, onChange}) {
   )
 }
 
-function Ingridients({ingridients, editMode, onChange}) {
-  const addNewIngridient = () => {
-    ingridients.push({name: "", quantity: "", unit: ""});
-    onChange({target: {
-      name: "ingridients",
-      value: ingridients
-    }});
-  };
-
-  const onIngridientChange = (idx) => ({target}) => {
-    ingridients[idx][target.name] = target.value;
+function Ingridients({sections, editMode, onChange}) {
+  const onDelete = (idx) => {
+    sections.splice(idx,1);
     onChange({
       target: {
-        name: "ingridients",
-        value: ingridients
+        name: "ingridientSections",
+        value: sections
       }
     });
   };
 
-  const onDelete = (idx) => {
-    ingridients.splice(idx,1);
+  const onSectionChange = (idx) => ({target}) => {
+    sections[idx][target.name] = target.value;
     onChange({
       target: {
-        name: "ingridients",
-        value: ingridients
+        name: "ingridientSections",
+        value: sections
+      }
+    });
+  };
+
+  const addNewSection = () => {
+    sections.push({name: "", ingridients: []});
+    onChange({
+      target: {
+        name: "ingridientSections",
+        value: sections
       }
     });
   };
 
   return (
-    <div className="ingridientList">
+    <div>
       <p className="header">Ingridients:</p>
       <hr/>
-      <ul>{ingridients.map((i, idx) =>
-        <Ingridient key={idx} ingridient={i} idx={idx}
-          editMode={editMode} onChange={onIngridientChange(idx)}
-          onDelete={() => onDelete(idx)}/>)}
-      </ul>
-      {editMode && <ul><div className="button dimmed ingridient" onClick={() => addNewIngridient()}>+</div></ul>}
+      <div className="ingridientsSections">
+        {sections.map((section, idx) =>
+          <IngridientsSection key={idx} section={section}
+           editMode={editMode} onChange={onSectionChange(idx)}
+           onDelete={() => onDelete(idx)}
+          />
+        )}
+      {editMode && <div className="ingridientsSectionPlaceholder">
+        <div className="button dimmed ingridient"
+        onClick={addNewSection}>+</div>
+       </div>
+      }
+      </div>
     </div>
   )
 }
 
-function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
-  const ingridientText= `${ingridient.quantity} [${ingridient.unit}] ${ingridient.name}`;
+function IngridientsSection({section, editMode, onChange, onDelete}) {
+  const onIngridientChange = (idx) => ({target}) => {
+    section.ingridients[idx][target.name] = target.value;
+    onChange({
+      target: {
+        name: "ingridients",
+        value: section.ingridients
+      }
+    });
+  };
+
+  const addNewIngridient = () => {
+    section.ingridients.push({name: "", quantity: "", unit: ""});
+    onChange({target: {
+      name: "ingridients",
+      value: section.ingridients
+    }});
+  };
+
+  const onIngridientDelete = (idx) => {
+    section.ingridients.splice(idx,1);
+    onChange({
+      target: {
+        name: "ingridients",
+        value: section.ingridients
+      }
+    });
+  };
+
+
+  // editMode={editMode} onChange={onIngridientChange(idx)}
+  //onDelete={() => onDelete(idx)}
 
   return (
-    <li className="ingridient" key={idx}>
+    <div className="ingridientsSection" key={section.name}>
+      {!editMode && <div className="sectionTitle">{section.name}</div>}
+      {editMode && (
+        <div className="sectionTitle">
+          <Input name="name" className="" editMode={editMode}
+            value={section.name} onChange={onChange}/>
+          <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
+        </div>
+      )}
+      <ul className="ingridientsList">
+        {section.ingridients.map((i, idx) =>
+        <Ingridient key={idx} ingridient={i} idx={idx}
+          editMode={editMode} onChange={onIngridientChange(idx)}
+          onDelete={() => onIngridientDelete(idx)}
+        />
+      )}
+      {editMode && <div className="button dimmed ingridient"
+        onClick={() => addNewIngridient()}>
+        +
+        </div>
+      }
+      </ul>
+    </div>
+  );
+}
+
+function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
+  const cn = "ingridient " + (editMode ? "on": "off");
+
+  return (
+    <li className={cn} key={idx}>
       {!editMode && (
         <>
         <div>{ingridient.quantity}</div>
@@ -148,13 +218,13 @@ function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
       )}
       {editMode && (
         <>
-        <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
-        <Input name="name" className="" editMode={editMode}
-          value={ingridient.name} onChange={onChange}/>
         <Input name="quantity" className="" editMode={editMode}
           value={ingridient.quantity} onChange={onChange}/>
         <Input name="unit" className="" editMode={editMode}
           value={ingridient.unit} onChange={onChange}/>
+        <Input name="name" className="" editMode={editMode}
+          value={ingridient.name} onChange={onChange}/>
+        <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
         </>
       )}
     </li>

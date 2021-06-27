@@ -61,6 +61,7 @@ function useGetRecipe(recipeId) {
     url: "",
     public: false,
     ingridients: [],
+    ingridientSections: [],
     description: "",
     notes: []
   });

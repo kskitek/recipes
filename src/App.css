@@ -5,6 +5,8 @@
   --acc-color: hsl(353, 62%, 83%);
   --acc-color-dimmed: hsl(353, 12%, 49%);
   --a-color: hsl(218, 57%, 58%);
+  --lighter-bg-color: hsl(203, 6%, 26%);
+  --light-color: hsl(206, 3%, 44%);
 }
 
 body {
@@ -38,7 +40,7 @@ li.note {
   text-align: left;
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 70%;
   min-height: 100%;
   margin: auto;
   padding: 1em 1em 1em 1em;
@@ -88,8 +90,8 @@ textarea {
 }
 
 .titleRow {
-  display: flex;
-  flex-direction: row;
+  grid-template-columns: 3% 94% 3%;
+  display: grid;
   align-items: center;
   color: var(--acc-color);
   font-size: larger;
@@ -124,13 +126,55 @@ textarea {
   padding: 0em 1em 0em 1.2em;
 }
 
-.ingridient {
-  margin: 0;
-  padding: 0em 1em 0em 1.2em;
+.ingridientsSections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.ingridientsSection {
+  border-width: 1px;
+  background-color: var(--lighter-bg-color);
+  border-radius: 0.2em;
+  margin: 0.2em;
+}
+
+.ingridientsSectionPlaceholder {
+  color: var(--light-color);
+  border-width: 2px;
+  border-style: dashed;
+  border-color: var(--light-color);
+  border-radius: 0.1em;
+  margin: 0.2em;
+  min-height: 3em;
   display: flex;
-  /* justify-content: center; */
-  /* TODO maybe this can be a grid?
-   * and instead of having whole text as one in reading mode, use the same grid and separate elements?*/
+  justify-content: center;
+  align-items: center;
+  /* font-size: 3em; */
+}
+
+.sectionTitle {
+  display: grid;
+  grid-template-columns: 94% 4%;
+  margin: 0.4em 0em 1em 1em;
+  font-weight: bold;
+}
+
+.ingridientsList {
+  padding: 0;
+}
+
+.ingridient {
+  margin: 0.4em;
+  padding: 0em 1em 0em 1.2em;
+  display: grid;
+}
+
+.ingridient.on {
+  grid-template-columns: 8% 10% 79% 3%;
+}
+
+.ingridient.off {
+  grid-template-columns: 8% 10% 82%;
 }
 
 .dimmed {
