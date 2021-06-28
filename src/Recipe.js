@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
-import { Input, TextArea } from "./Editable";
+import { Input, TextArea, Select } from "./Editable";
 import { LoginContext } from "./Login";
 import { useEditButton } from "./EditButton";
 
@@ -206,27 +206,34 @@ function IngridientsSection({section, editMode, onChange, onDelete}) {
 
 function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
   const cn = "ingridient " + (editMode ? "on": "off");
+  const units = [
+    "",
+    "g", "dag", "kg",
+    "ml", "l",
+    "szt", "szklanka", "szczypta",
+    "tbsp(Ł)", "tsp",
+    "do smaku"
+  ];
 
   return (
     <li className={cn} key={idx}>
-      {!editMode && (
-        <>
+      <Input name="quantity" editMode={editMode}
+        value={ingridient.quantity} onChange={onChange}>
         <div>{ingridient.quantity}</div>
+      </Input>
+      <Select name="unit" value={ingridient.unit} options={units}
+        onChange={onChange} editMode={editMode}>
         <div>[{ingridient.unit}]</div>
+      </Select>
+      <Input name="name" editMode={editMode}
+        value={ingridient.name} onChange={onChange}>
         <div>{ingridient.name}</div>
-        </>
-      )}
-      {editMode && (
-        <>
-        <Input name="quantity" className="" editMode={editMode}
-          value={ingridient.quantity} onChange={onChange}/>
-        <Input name="unit" className="" editMode={editMode}
-          value={ingridient.unit} onChange={onChange}/>
-        <Input name="name" className="" editMode={editMode}
-          value={ingridient.name} onChange={onChange}/>
-        <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
-        </>
-      )}
+      </Input>
+      {editMode &&
+        <div className="button dimmed" onClick={onDelete}>
+          <FontAwesomeIcon icon={faTrashAlt}/>
+        </div>
+      }
     </li>
   );
 }
@@ -256,7 +263,7 @@ function Notes({notes, editMode, onChange}) {
   )
 }
 
-function HomeLink(props) {
+function HomeLink() {
   return (
     <Link to="/" >📖</Link>
   );

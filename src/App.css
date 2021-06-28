@@ -170,11 +170,11 @@ textarea {
 }
 
 .ingridient.on {
-  grid-template-columns: 8% 10% 79% 3%;
+  grid-template-columns: 8% 14% 75% 3%;
 }
 
 .ingridient.off {
-  grid-template-columns: 8% 10% 82%;
+  grid-template-columns: 8% 14% 78%;
 }
 
 .dimmed {
