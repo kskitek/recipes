@@ -62,10 +62,12 @@ function Details({recipe, setRecipe}) {
         <EditButton/>
       </div>
 
+      <div>
       <Input name="url" className="url" editMode={editMode}
         value={recipe.url} onChange={onChange}>
         <a href={recipe.url}>{recipe.url}</a>
       </Input>
+      </div>
 
       <TempAndTime recipe={recipe} editMode={editMode} onChange={onChange}/>
       <Ingridients sections={recipe.ingridientSections} editMode={editMode} onChange={onChange}/>
@@ -209,9 +211,10 @@ function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
   const units = [
     "",
     "g", "dag", "kg",
-    "ml", "l",
-    "szt", "szklanka", "szczypta",
+    "ml", "litr",
+    "szt",
     "tbsp(Ł)", "tsp",
+    "szklanka", "szczypta",
     "do smaku"
   ];
 
@@ -223,7 +226,7 @@ function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
       </Input>
       <Select name="unit" value={ingridient.unit} options={units}
         onChange={onChange} editMode={editMode}>
-        <div>[{ingridient.unit}]</div>
+        <div>{ingridient.unit}</div>
       </Select>
       <Input name="name" editMode={editMode}
         value={ingridient.name} onChange={onChange}>
@@ -246,7 +249,7 @@ function Description({description, editMode, onChange}) {
       <div className="description">
         <TextArea name="description" className="description" editMode={editMode}
         value={description} onChange={onChange}>
-        <ReactMarkdown>{description}</ReactMarkdown>
+          <ReactMarkdown>{description}</ReactMarkdown>
         </TextArea>
       </div>
     </>
