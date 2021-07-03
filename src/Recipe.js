@@ -175,23 +175,19 @@ function IngridientsSection({section, editMode, onChange, onDelete}) {
     });
   };
 
-
-  // editMode={editMode} onChange={onIngridientChange(idx)}
-  //onDelete={() => onDelete(idx)}
-
   return (
-    <div className="ingridientsSection" key={section.name}>
+    <div className="ingridientsSection">
       {!editMode && <div className="sectionTitle">{section.name}</div>}
       {editMode && (
-        <div className="sectionTitle">
-          <Input name="name" className="" editMode={editMode}
+        <div className="sectionTitle" >
+          <Input name="name" editMode={editMode}
             value={section.name} onChange={onChange}/>
           <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
         </div>
       )}
       <ul className="ingridientsList">
         {section.ingridients.map((i, idx) =>
-        <Ingridient key={idx} ingridient={i} idx={idx}
+        <Ingridient key={idx} ingridient={i}
           editMode={editMode} onChange={onIngridientChange(idx)}
           onDelete={() => onIngridientDelete(idx)}
         />
@@ -206,7 +202,7 @@ function IngridientsSection({section, editMode, onChange, onDelete}) {
   );
 }
 
-function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
+function Ingridient({ingridient, editMode, onChange, onDelete}) {
   const cn = "ingridient " + (editMode ? "on": "off");
   const units = [
     "",
@@ -219,7 +215,7 @@ function Ingridient({ingridient, idx, editMode, onChange, onDelete}) {
   ];
 
   return (
-    <li className={cn} key={idx}>
+    <li className={cn}>
       <Input name="quantity" editMode={editMode}
         value={ingridient.quantity} onChange={onChange}>
         <div>{ingridient.quantity}</div>
