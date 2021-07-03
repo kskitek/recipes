@@ -1,12 +1,12 @@
 import { useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import ReactMarkdown from 'react-markdown';
 import { useGetRecipe, saveRecipe } from "./recipiesDao";
-import { Input, TextArea } from "./Editable";
+import { Input } from "./Editable";
 import { LoginContext } from "./Login";
 import { useEditButton } from "./EditButton";
 import { Notes } from "./Notes";
 import { Ingridients } from "./Ingridients";
+import { Description } from "./Description";
 
 function Recipe({isNew}) {
   const { recipeId } = useParams();
@@ -23,13 +23,13 @@ function Recipe({isNew}) {
   return (
     <div>
       {error && error}
-      {recipe && <Details recipe={recipe} setRecipe={setRecipe}/>}
+      {recipe && <Details recipe={recipe} setRecipe={setRecipe} isNew={isNew}/>}
     </div>
   )
 }
 // TODO add spinner on load
 
-function Details({recipe, setRecipe}) {
+function Details({recipe, setRecipe, isNew}) {
   const { user } = useContext(LoginContext);
   const history = useHistory();
 
@@ -42,7 +42,7 @@ function Details({recipe, setRecipe}) {
       console.error(error);
     }
   };
-  const { EditButton, editMode, setEdited } = useEditButton(onSave);
+  const { EditButton, editMode, setEdited } = useEditButton(onSave, isNew);
 
   const onChange = ({target}) => {
     setRecipe({
@@ -94,19 +94,6 @@ function TempAndTime({recipe, editMode, onChange}) {
       </Input>
     </div>
   )
-}
-
-function Description({description, editMode, onChange}) {
-  return (
-    <>
-      <p className="header">Description:</p>
-      <hr/>
-      <TextArea name="description" className="description" editMode={editMode}
-      value={description} onChange={onChange}>
-        <ReactMarkdown className="description">{description}</ReactMarkdown>
-      </TextArea>
-    </>
-  );
 }
 
 function HomeLink() {

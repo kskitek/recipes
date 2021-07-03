@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faSave } from '@fortawesome/free-regular-svg-icons'
 
-function useEditButton(onSave) {
-  const [ editMode, setEditMode ] = useState(false);
+function useEditButton(onSave, startInEdit = false) {
+  const [ editMode, setEditMode ] = useState(startInEdit);
   const [ edited, setEdited ] = useState(false);
 
   const toggleEditMode = async () => {
