@@ -63,7 +63,8 @@ function useGetRecipe(recipeId) {
     ingridients: [],
     ingridientSections: [],
     description: "",
-    notes: []
+    notes: [],
+    tags: []
   });
   const [ error, setError ] = useState(undefined);
 

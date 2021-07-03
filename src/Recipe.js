@@ -7,6 +7,7 @@ import { useEditButton } from "./EditButton";
 import { Notes } from "./Notes";
 import { Ingridients } from "./Ingridients";
 import { Description } from "./Description";
+import { Tags } from "./Tags";
 
 function Recipe({isNew}) {
   const { recipeId } = useParams();
@@ -72,6 +73,8 @@ function Details({recipe, setRecipe, isNew}) {
       </div>
 
       <TempAndTime recipe={recipe} editMode={editMode} onChange={onChange}/>
+      <Tags tags={recipe.tags} editMode={editMode} onChange={onChange}/>
+
       <Ingridients sections={recipe.ingridientSections} editMode={editMode} onChange={onChange}/>
       <Description description={recipe.description} editMode={editMode} onChange={onChange}/>
       <Notes notes={recipe.notes} editMode={editMode} onChange={onChange}/>
