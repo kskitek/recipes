@@ -20,6 +20,7 @@ function TextArea({name, value, editMode = false, onChange, className, children}
   );
 }
 
+/* eslint-disable no-unused-vars */
 function List({name, value, editMode = false, onChange, className, children,
   newElementFactory = () => {}}) {
   const cn = (editMode ? "on" : "off") + " editable "  + className;

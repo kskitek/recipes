@@ -42,9 +42,14 @@ li.note {
   margin: 0em .2em 0.2em 0.2em;
 }
 
+.note > p {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
 .app {
   width: 75%;
-  margin: 2rem auto auto auto;
+  margin: 2rem auto 2rem auto;
 }
 
 .button {
@@ -149,19 +154,20 @@ textarea {
   border-width: 2px;
   border-radius: 2px;
   border-style: solid;
+  gap: 2em; /* TODO work it out */
 }
 
 .ingridientsSection {
   background-color: var(--lighter-bg-color);
   border-color: var(--bg-color);
-  margin: 2px;
+  /* margin: 2px; */
 }
 
 .ingridientsSectionPlaceholder {
   color: var(--light-color);
   border-color: var(--light-color);
   border-style: dashed;
-  margin: 4px;
+  /* margin: 4px; */
   min-height: 1em;
   justify-content: center;
   align-items: center;
@@ -197,3 +203,5 @@ textarea {
   color: var(--fg-color-dimmed);
 }
 
+.note {
+}
