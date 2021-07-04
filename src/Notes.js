@@ -3,7 +3,6 @@ import { Input } from "./Editable";
 
 function Notes({notes, editMode, onChange}) {
   const onNoteChange = (idx) => ({target}) => {
-    console.log(target);
     notes[idx] = target.value;
     onChange({
       target: {

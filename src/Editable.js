@@ -1,9 +1,37 @@
+import { useState } from "react";
+
 function Input({name, value, editMode = false, onChange, className, children}) {
   const cn = (editMode ? "on" : "off") + " editable "  + className;
   return (
     <>
     {editMode && <input name={name} type="text" className={cn}
       value={value} onChange={onChange} placeholder={name}/>}
+    {!editMode && children}
+    </>
+  );
+}
+
+function CommitableInput({name, editMode = false, onCommit, className, children}) {
+  const cn = (editMode ? "on" : "off") + " editable "  + className;
+  const [value, setValue] = useState("");
+
+  const onChange = ({target}) => {
+   setValue(target.value);
+  };
+
+  const onEnter = (e) => {
+    if (e.which === 13) {
+      console.log(value)
+      onCommit({target: {value: value}});
+      setValue("");
+    }
+  };
+
+  return (
+    <>
+    {editMode && <input name={name} type="text" className={cn}
+      value={value} onChange={onChange} onKeyPress={onEnter}
+      placeholder={name}/>}
     {!editMode && children}
     </>
   );
@@ -51,4 +79,4 @@ function Select({name, value, options, onChange, editMode = false, className, ch
   );
 }
 
-export { Input, TextArea, Select };
+export { Input, CommitableInput, TextArea, Select };

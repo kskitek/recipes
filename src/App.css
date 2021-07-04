@@ -4,7 +4,9 @@
   --fg-color-dimmed: hsl(206, 3%, 44%);
   --acc-color: hsl(353, 62%, 83%);
   --acc-color-dimmed: hsl(353, 12%, 49%);
+  --acc-green: hsl(88, 28%, 60%);
   --a-color: hsl(218, 57%, 58%);
+  --a-color-dimmed: hsl(218, 32%, 38%);
   --lighter-bg-color: hsl(203, 6%, 26%);
   --light-color: hsl(206, 3%, 44%);
 
@@ -57,17 +59,14 @@ li.note {
   border-radius: 2px;
   padding: 0 0.3em 0 0.3em;
   text-align: center;
+  cursor: pointer;
 }
 
 .recipesList {
   font-size: large;
 }
 
-.details {
-}
-
 input {
-  width: 100%;
 }
 
 hr {
@@ -80,6 +79,7 @@ textarea {
   width: 100%;
   min-height: 5em;
   height: 30vh;
+  border-width: var(--border-width);
 }
 
 .editable {
@@ -98,6 +98,9 @@ textarea {
 .editable:hover {
   border-color: var(--fg-color-dimmed);
   border-style: dashed;
+}
+
+.details {
 }
 
 .titleRow {
@@ -208,18 +211,24 @@ textarea {
 
 .tags {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.tags > * {
+  flex-shrink: 1;
+  margin: 2px;
 }
 
 .tag {
   display: flex;
   border-radius: 4px;
-  background: lime;
-  color: black;
-  padding: 0.1em 0.3em 0.1em 0.3em;
-  margin: 2px;
+  background: var(--a-color-dimmed);
+  color: var(--fg-color);
+  padding: 0.1em 0.4em 0.1em 0.4em;
 }
 
 .x {
-  margin-left: 0.2em;
-  color: gray;
+  margin-left: 0.4em;
+  color: var(--bg-color);
+  cursor: pointer;
 }

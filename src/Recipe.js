@@ -83,17 +83,20 @@ function Details({recipe, setRecipe, isNew}) {
 }
 
 function TempAndTime({recipe, editMode, onChange}) {
+  const showTemp = editMode || recipe.temperature;
+  const showTime = editMode || recipe.time;
+
   return (
     <div className="tempAndTime">
-      <div>Temperature:</div>
+      {showTemp && <div>Temperature:</div>}
       <Input name="temperature" editMode={editMode}
         value={recipe.temperature} onChange={onChange}>
-          <div>{recipe.temperature}°C</div>
+        {showTemp && <div>{recipe.temperature}°C</div>}
       </Input>
-      <div>Time:</div>
+      {showTime && <div>Time:</div>}
       <Input name="time" editMode={editMode}
         value={recipe.time} onChange={onChange}>
-          <div>{recipe.time}″</div>
+        {showTime && <div>{recipe.time}″</div>}
       </Input>
     </div>
   )
