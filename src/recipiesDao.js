@@ -31,6 +31,7 @@ function useRecipesFinder(author) {
   // TODO get by author or public using two separate queries
   useEffect(() => {
     const unsubscribe = getCollection()
+      .orderBy("name")
       /* .where("author", "==", author) */
       /* .limit(10) */
       .onSnapshot(qs => {
