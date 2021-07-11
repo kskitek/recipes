@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { RecipiesList } from './RecipesList';
 import { Recipe } from './Recipe';
 import { WithLogin } from './Login';
+import { BackupDB } from './Backup';
 
 function App() {
   // TODO cealn up firebase init stuff..
@@ -22,6 +23,7 @@ function App() {
               <Route exact path="/"><RecipiesList/></Route>
               <Route exact path="/recipes/new"><Recipe isNew/></Route>
               <Route exact path="/recipes/:recipeId"><Recipe/></Route>
+              <Route exact path="/backup"><BackupDB/></Route>
             </Switch>
           </WithLogin>
         </BrowserRouter>
