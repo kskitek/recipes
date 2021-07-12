@@ -148,6 +148,7 @@ textarea {
   display: grid;
   grid-template-columns: 7em calc(100% - 7em - 2 * var(--border-width));
   grid-template-rows: auto;
+  margin-left: 1.6em; /* TODO this works and looks ok but feels wrong */
 }
 
 .header {
@@ -197,7 +198,7 @@ textarea {
 
 .sectionTitle {
   display: grid;
-  grid-template-columns: 94% 4%;
+  grid-template-columns: 84% 9% 7%;
   margin: 0.4em 0em 1em 1em;
   font-weight: bold;
 }

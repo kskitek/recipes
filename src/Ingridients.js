@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faThermometerHalf, faClock } from '@fortawesome/free-solid-svg-icons'
 import { Input, Select } from "./Editable";
 
 function Ingridients({sections, editMode, onChange}) {
@@ -85,13 +85,31 @@ function IngridientsSection({section, editMode, onChange, onDelete}) {
 
   return (
     <div className="ingridientsSection">
-      {!editMode && <div className="sectionTitle">{section.name}</div>}
+      {!editMode &&
+        <div className="sectionTitle">
+          <div>{section.name}</div>
+          <div>{section.temperature && (
+            <>
+            <FontAwesomeIcon icon={faThermometerHalf}/> {section.temperature}°C
+            </>
+          )}</div>
+          <div>{section.time && (
+            <>
+            <FontAwesomeIcon icon={faClock}/> {section.time}″
+            </>
+          )}</div>
+        </div>
+      }
       {editMode && (
+        <>
         <div className="sectionTitle" >
           <Input name="name" editMode={editMode}
             value={section.name} onChange={onChange}/>
+          <div id="TODO this is a hack :("/>
           <div className="button dimmed" onClick={onDelete}><FontAwesomeIcon icon={faTrashAlt}/></div>
         </div>
+        <TempAndTime section={section} editMode={editMode} onChange={onChange}/>
+        </>
       )}
       <ul className="ingridientsList">
         {section.ingridients.map((i, idx) =>
@@ -144,5 +162,26 @@ function Ingridient({ingridient, editMode, onChange, onDelete}) {
     </li>
   );
 }
+
+function TempAndTime({section, editMode, onChange}) {
+  const showTemp = editMode || section.temperature;
+  const showTime = editMode || section.time;
+
+  return (
+    <div className="tempAndTime">
+      {showTemp && <div>Temperature:</div>}
+      <Input name="temperature" editMode={editMode}
+        value={section.temperature} onChange={onChange}>
+        {showTemp && <div>{section.temperature}°C</div>}
+      </Input>
+      {showTime && <div>Time:</div>}
+      <Input name="time" editMode={editMode}
+        value={section.time} onChange={onChange}>
+        {showTime && <div>{section.time}″</div>}
+      </Input>
+    </div>
+  )
+}
+
 
 export { Ingridients };

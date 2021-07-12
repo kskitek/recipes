@@ -72,7 +72,6 @@ function Details({recipe, setRecipe, isNew}) {
       </Input>
       </div>
 
-      <TempAndTime recipe={recipe} editMode={editMode} onChange={onChange}/>
       <Tags tags={recipe.tags} editMode={editMode} onChange={onChange}/>
 
       <Ingridients sections={recipe.ingridientSections} editMode={editMode} onChange={onChange}/>
@@ -80,26 +79,6 @@ function Details({recipe, setRecipe, isNew}) {
       <Notes notes={recipe.notes} editMode={editMode} onChange={onChange}/>
     </div>
   );
-}
-
-function TempAndTime({recipe, editMode, onChange}) {
-  const showTemp = editMode || recipe.temperature;
-  const showTime = editMode || recipe.time;
-
-  return (
-    <div className="tempAndTime">
-      {showTemp && <div>Temperature:</div>}
-      <Input name="temperature" editMode={editMode}
-        value={recipe.temperature} onChange={onChange}>
-        {showTemp && <div>{recipe.temperature}°C</div>}
-      </Input>
-      {showTime && <div>Time:</div>}
-      <Input name="time" editMode={editMode}
-        value={recipe.time} onChange={onChange}>
-        {showTime && <div>{recipe.time}″</div>}
-      </Input>
-    </div>
-  )
 }
 
 function HomeLink() {
