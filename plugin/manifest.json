@@ -1,0 +1,16 @@
+{
+  "name": "Recipes scrapper",
+  "description": "Scrapper for recipes.skitek.dev",
+  "version": "0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Recipes"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ]
+}

@@ -1,0 +1,47 @@
+#scrapperToolbar {
+  position: fixed;
+  top: 0px;
+  z-index: 1;
+  /* width: 60%; */
+  width: 100%;
+  min-height: 30px;
+  background: lightblue;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 4px 15px 4px 15px;
+}
+
+.scrapperTag {
+  background: lightsteelblue;
+  position: absolute;
+}
+
+.scrapperBorder {
+  border-style: dashed;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: darkblue;
+}
+
+.scrapperOverlay {
+  background: beige;
+}
+
+.scrapperSelected {
+  background: lightblue;
+}
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  /* display: none; /1* Hidden by default *1/ */
+  /* width: 100%; /1* Full width (cover the whole page) *1/ */
+  /* height: 100%; /1* Full height (cover the whole page) *1/ */
+  /* top: 0; */
+  /* left: 0; */
+  /* right: 0; */
+  /* bottom: 0; */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+}
